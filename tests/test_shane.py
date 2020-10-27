@@ -13,8 +13,8 @@ playerLoseRounds = 0
 lastRound = 0 # -1 if lost, 0 if draw, 1 if won
 # 改:赌本
 currentMoney = 5120
-minBet = 20
-currentBet = 20
+minBet = 20 # 改: 单注底金
+currentBet = 20 # 改: 单注底金
 bankrupt = False
 currentGuess = '庄'
 # print ('把黑桃1-6洗入牌库!')
@@ -77,8 +77,8 @@ for j in range(10 * 3650):
             # print ('闲赢', '闲家手牌: ', player, '; 庄家手牌: ', banker, '注金: ', currentBet)
             if (currentGuess == '庄'):
                 currentBet = currentBet * 2
-                if (currentBet == 5120):
-                    currentBet = 20
+                if (currentBet == 5120): # 如果每注都开始押5120了
+                    currentBet = 20      # 则跳回20
                 currentRound = currentRound + 1
             else:
                 currentMoney = currentMoney + currentBet * 2
@@ -89,15 +89,15 @@ for j in range(10 * 3650):
             # print ('庄赢', '闲家手牌: ', player, '; 庄家手牌: ', banker, '注金: ', currentBet)
             if (currentGuess == '闲'):
                 currentBet = currentBet * 2
-                if (currentBet == 5120):
-                    currentBet = 20
+                if (currentBet == 5120): # 如果每注都开始押5120了
+                    currentBet = 20      # 则跳回20
                 currentRound = currentRound + 1
             else:
                 currentMoney = currentMoney + currentBet * 2
                 currentRound = currentRound + 1
                 currentBet = minBet
         # 改:跳闲跳庄
-        if ((currentRound + 1) % 2 == 0):
+        if ((currentRound + 1) % 3 == 0):
             if (currentGuess == '闲'):
                 currentGuess = '庄'
             else:

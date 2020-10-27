@@ -17,7 +17,7 @@ from playingcards import Stack
 
 # http://www.stack.nl/~dimitri/doxygen/index.html
 import random
-
+import numpy
 
 class Card(object):
     '''!
@@ -560,8 +560,11 @@ class Shoe(object):
         @todo Find a way to attach a user's shuffle method instead of our
             own default.
         '''
-        if self.__enable_shuffle:
-            random.shuffle(self.__cards)
+        numpy.random.shuffle(self.__cards)
+        # random.shuffle(self.__cards)
+
+    def cardsLeft(self):
+        return len(self.__cards) - self.__next_card
 
     # -------------------------------------------------------------------------
     def set_cut_card(self, position):

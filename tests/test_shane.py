@@ -11,6 +11,7 @@ drawRounds = 0
 playerWinRounds = 0 
 playerLoseRounds = 0
 lastRound = 0 # -1 if lost, 0 if draw, 1 if won
+# 改:赌本
 currentMoney = 5120
 minBet = 20
 currentBet = 20
@@ -32,9 +33,11 @@ def loseAndPay(currentMoney, currentBet, currentRound):
     if (currentBet > 10000):
         currentBet = 5120
     currentRound = currentRound + 1
-
-for j in range(5 * 30):
+# 改:打多少靴
+for j in range(10 * 3650):
     currentBet = minBet
+    # 改:刀多少张牌. 加井号取消刀牌
+    shoe.set_cut_card(-36)
     if (bankrupt):
         print ('破产强退!')
         break
@@ -70,35 +73,36 @@ for j in range(5 * 30):
             currentMoney = currentMoney + currentBet
             currentRound = currentRound + 1
         elif (result > 0):
-            print ('闲赢', '当前下注: ', currentGuess, currentBet)
+            print ('闲赢', ' 当前下注:', currentGuess, currentBet)
             # print ('闲赢', '闲家手牌: ', player, '; 庄家手牌: ', banker, '注金: ', currentBet)
             if (currentGuess == '庄'):
                 currentBet = currentBet * 2
-                if (currentBet > 10000):
-                    currentBet = 5120
+                if (currentBet == 5120):
+                    currentBet = 20
                 currentRound = currentRound + 1
             else:
                 currentMoney = currentMoney + currentBet * 2
                 currentRound = currentRound + 1
                 currentBet = minBet
         else:
-            print ('庄赢', '当前下注: ', currentGuess, currentBet)
+            print ('庄赢', ' 当前下注:', currentGuess, currentBet)
             # print ('庄赢', '闲家手牌: ', player, '; 庄家手牌: ', banker, '注金: ', currentBet)
             if (currentGuess == '闲'):
                 currentBet = currentBet * 2
-                if (currentBet > 10000):
-                    currentBet = 5120
+                if (currentBet == 5120):
+                    currentBet = 20
                 currentRound = currentRound + 1
             else:
                 currentMoney = currentMoney + currentBet * 2
                 currentRound = currentRound + 1
                 currentBet = minBet
-        if ((currentRound + 1) % 3 == 0):
+        # 改:跳闲跳庄
+        if ((currentRound + 1) % 2 == 0):
             if (currentGuess == '闲'):
                 currentGuess = '庄'
             else:
                 currentGuess = '闲'
-        if (currentRound % 60 == 0):
+        if (currentRound % 6 == 0):
             shoe.reset()
             shoe.shuffle()
             break
